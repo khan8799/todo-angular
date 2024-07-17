@@ -3,14 +3,16 @@
         <div class="col-md-3 mb-3">
             <div class="card">
                 <div class="center-button m-auto">
-                    <button type="button" class="btn btn-primary">
+                    <button
+                        type="button" class="btn btn-primary"
+                        (click)="addTask()">
                         Create New Task
                     </button>
                 </div>
             </div>
         </div>
 
-        <ng-container *ngFor="let task of tasks">
+        <ng-container *ngFor="let task of tasks; let i = index">
             <div class="col-md-3 mb-3">
                 <div class="card p-3 mb-2">
                     <div class="d-flex justify-content-between">
@@ -22,7 +24,9 @@
                                 </h6>
                             </div>
                         </div>
-                        <div class="badge"> <span>Design</span> </div>
+                        <div class="badge" (click)="deleteTask(i)">
+                            <span>Delete</span>
+                        </div>
                     </div>
                     <div class="mt-5">
                         <h3 class="heading">Senior Product<br>Designer-Singapore</h3>

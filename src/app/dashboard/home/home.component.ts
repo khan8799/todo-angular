@@ -7,5 +7,13 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   today: number = Date.now();
-  tasks = [1, 2, 3, 4]
+  tasks: number[] = []
+
+  addTask() {
+    this.tasks.push(this.tasks.length + 1)
+  }
+
+  deleteTask(index: number) {
+    this.tasks.splice(index, 1)
+  }
 }
