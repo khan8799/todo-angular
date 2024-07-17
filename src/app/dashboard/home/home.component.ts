@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-
+  today: number = Date.now();
+  tasks = [1, 2, 3, 4]
 }
