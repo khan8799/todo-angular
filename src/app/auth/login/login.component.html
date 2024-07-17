@@ -1,5 +1,9 @@
 <div class="row mt-4">
     <div class="col-md-6 offset-md-3">
+        <div *ngIf="loginError.show" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ loginError.message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <form [formGroup]="loginForm" (submit)="onSubmit()">
             <div class="mb-3">
                 <label for="contact" class="form-label">Contact No.</label>
