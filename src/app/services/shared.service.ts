@@ -18,7 +18,7 @@ export class SharedService {
     this.loadingSource.next(status);
   }
 
-  changeUser(user: IUser) {
+  changeUser(user: IUser | null) {
     this.userSource.next(user);
   }
 }

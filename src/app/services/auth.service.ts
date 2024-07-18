@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ILoginPayload, IUser } from '../models/auth.model';
 import { Users } from '../auth/User';
 import { SharedService } from './shared.service';
+import {randomString} from '../utilities/randomString';
 
 @Injectable({
   providedIn: 'root'
@@ -37,18 +38,15 @@ export class AuthService {
 
   logout(): Observable<boolean>{
     return new Observable(observer => {
-      localStorage.clear();
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      this._sharedService.changeUser(null)
       observer.next(true);
     });
   }
 
   set userData(user: IUser) {
-    localStorage.setItem('token', this.token);
+    localStorage.setItem('token', randomString());
     localStorage.setItem('user', JSON.stringify(user));
-  }
- 
-  get token(): string {
-    const rand = () =>  Math.random().toString(36).substr(2);
-    return rand() + rand();
   }
 }

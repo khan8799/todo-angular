@@ -14,6 +14,10 @@ import { SharedService } from 'src/app/services/shared.service';
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   loginSubscription!: Subscription;
+  loginError = {
+    message: '',
+    show: false
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -56,7 +60,13 @@ export class LoginComponent implements OnInit, OnDestroy {
           this._sharedService.toggleLoading(false)
           this.router.navigate(['/'])
         },
-        error: (e) => this._sharedService.toggleLoading(false)
+        error: (e) => {
+          this._sharedService.toggleLoading(false)
+          this.loginError = {
+            message: e.message,
+            show: true
+          }
+        }
       })
   }
 
