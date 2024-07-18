@@ -1,37 +1,55 @@
-<nav class="navbar navbar-expand-lg text-bg-dark">
+<nav class="navbar navbar-expand-lg bg-dark">
   <div class="container">
     <a class="navbar-brand">
       <img src="./../../../assets/images/epam.png" alt="" width="70" height="30">
     </a>
-      
-    <div class="d-flex" role="search">
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <ng-container *ngIf="(userInfo$ | async); else loginTemplate">
-            <button
-              class="nav-link text-white"
-              aria-current="page"
-              (click)="onLogoutClick()">
-              <svg class="text-white" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                <style>svg.text-white{fill:#ffffff}</style>
-                <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
-              </svg>
-              Log off
-              {{ (userInfo$ | async)?.name }}
+          <ng-container *ngIf="currentView === 'list'; else gridTemplate">
+            <button class="nav-link text-white" (click)="toggleView('grid')">
+              Grid View
             </button>
           </ng-container>
-
-          <ng-template #loginTemplate>
-            <a [routerLink]="'/auth'" class="nav-link text-white" aria-current="page">
-              <svg class="text-white" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-                <style>svg.text-white{fill:#ffffff}</style>
-                <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
-              </svg>
-              User Login
-            </a>
+          <ng-template #gridTemplate>
+            <button class="nav-link text-white" (click)="toggleView('list')">
+              List View
+            </button>
           </ng-template>
+          
         </li>
       </ul>
+      
+      <div class="d-flex" role="search">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <ng-container *ngIf="(userInfo$ | async); else loginTemplate">
+              <button
+                class="nav-link text-white"
+                aria-current="page"
+                (click)="onLogoutClick()">
+                <svg class="text-white" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                  <style>svg.text-white{fill:#ffffff}</style>
+                  <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
+                </svg>
+                Log off
+                {{ (userInfo$ | async)?.name }}
+              </button>
+            </ng-container>
+
+            <ng-template #loginTemplate>
+              <a [routerLink]="'/auth'" class="nav-link text-white" aria-current="page">
+                <svg class="text-white" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                  <style>svg.text-white{fill:#ffffff}</style>
+                  <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+                </svg>
+                User Login
+              </a>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>

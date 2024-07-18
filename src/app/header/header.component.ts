@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 export class HeaderComponent {
   isAuthenticated = false;
   userInfo$!: Observable<IUser>;
+  currentView!: 'list' | 'grid';
 
   constructor(
     private _authService: AuthService,
@@ -22,6 +23,7 @@ export class HeaderComponent {
 
   ngOnInit(): void {
     this.userInfo$ = this._sharedService.user
+    this._sharedService.view.subscribe(view => this.currentView = view)
   }
 
   onLogoutClick(): void {
@@ -34,5 +36,9 @@ export class HeaderComponent {
             this.isAuthenticated = false;
             this.router.navigate(['/auth']);
           });
+  }
+
+  toggleView(view: 'list' | 'grid'): void {
+    this._sharedService.toggleView(view)
   }
 }
