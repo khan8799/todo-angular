@@ -4,22 +4,7 @@
             <div class="col-md-3 mb-3">
                 <div class="card">
                     <div class="center-button m-auto">
-                        <div class="dropdown">
-                            <button
-                                class="btn btn-primary dropdown-toggle"
-                                type="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Create New Task
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li *ngFor="let taskType of taskTypes" (click)="onAddTask(taskType)">
-                                    <a class="dropdown-item">
-                                        {{ taskType.name }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <app-create-task-button (onAddTask)="onAddTask($event)"></app-create-task-button>
                     </div>
                 </div>
             </div>
@@ -28,67 +13,22 @@
                 <div class="col-md-3 mb-3">
                     <div class="card p-3 mb-2">
                         <div class="d-flex justify-content-between">
-                            <div class="d-flex flex-row align-items-center">
-                                <div class="icon"> <i class="bx bxl-mailchimp"></i> </div>
-                                <div class="ms-2 c-details" *ngIf="task.isCreated">
-                                    <h6 class="mb-0">
-                                        {{ task.createdBy?.name }}
-                                    </h6>
-                                </div>
-                            </div>
+                            <ng-container *ngTemplateOutlet="createdByTemplate; context: {task}"></ng-container>
+                            
                             <div class="badge" (click)="deleteTask(i)">
                                 <span>Delete</span>
                             </div>
                         </div>
                         <div class="mt-5">
                             <ng-container *ngIf="task.isCreated; else createTaskForm">
-                                <h3 class="heading">
-                                    {{ task.name | titlecase}}
-                                </h3>
-    
-                                <ng-container *ngFor="let checklist of task.checklists">
-                                    <div class="d-flex bg-body-secondary mb-1" [ngClass]="{'line-through': checklist.isCompleted}">
-                                        <div class="p-2 flex-grow-1">
-                                            {{ checklist.name }}
-                                        </div>
-    
-                                        <ng-container *ngIf="checklist.isCompleted else checklistOptionTemplate">
-                                            <div class="p-2">
-                                                <span class="badge text-bg-primary">completed</span>
-                                            </div>
-                                        </ng-container>
-                                        <ng-template #checklistOptionTemplate>
-                                            <div class="p-2" (click)="completeChecklist(task, checklist)">
-                                                <span class="badge text-bg-success">done</span>
-                                            </div>
-                                            <div class="p-2" (click)="removeChecklist(task, checklist)">
-                                                <span class="badge text-bg-danger">remove</span>
-                                            </div>
-                                        </ng-template>
-                                    </div>
-                                </ng-container>
+                                <app-task-detail
+                                    [task]="task"
+                                    (onCompleteChecklist)="completeChecklist($event)"
+                                    (onRemoveChecklist)="removeChecklist($event)"></app-task-detail>
     
                                 <div class="mt-5">
-                                    <div class="progress">
-                                        <div
-                                            class="progress-bar"
-                                            role="progressbar"
-                                            [ngStyle]="{
-                                                'width': task.progressPercent + '%',
-                                                'background-color': task.color
-                                            }"
-                                            aria-valuenow="50"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="mt-3">
-                                        <span class="text1">
-                                            Created On 
-                                            <span class="text2">
-                                                {{ task.createdAt | date:'medium'}}
-                                            </span>
-                                        </span>
-                                    </div>
+                                    <ng-container *ngTemplateOutlet="progressBarTemplate; context: {task}"></ng-container>
+                                    <ng-container *ngTemplateOutlet="createdOnTemplate; context: {task}"></ng-container>
                                 </div>
                             </ng-container>
                             <ng-template #createTaskForm>
@@ -109,22 +49,7 @@
             </ng-container>
         </ng-container>
         <ng-template #listTemplate>
-            <div class="dropdown mb-4">
-                <button
-                    class="btn btn-primary dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Create New Task
-                </button>
-                <ul class="dropdown-menu">
-                    <li *ngFor="let taskType of taskTypes" (click)="onAddTask(taskType)">
-                        <a class="dropdown-item">
-                            {{ taskType.name }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <app-create-task-button (onAddTask)="onAddTask($event)"></app-create-task-button>
             <table class="table">
                 <thead>
                     <tr>
@@ -132,6 +57,7 @@
                         <th scope="col">Task Name</th>
                         <th scope="col">Created By</th>
                         <th scope="col">Created On</th>
+                        <th scope="col">Progress</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -141,30 +67,10 @@
                         </th>
                         <td>
                             <ng-container *ngIf="task.isCreated; else createTaskForm">
-                                <h3 class="heading">
-                                    {{ task.name | titlecase}}
-                                </h3>
-                                <ng-container *ngFor="let checklist of task.checklists">
-                                    <div class="d-flex bg-body-secondary mb-1" [ngClass]="{'line-through': checklist.isCompleted}">
-                                        <div class="p-2 flex-grow-1">
-                                            {{ checklist.name }}
-                                        </div>
-    
-                                        <ng-container *ngIf="checklist.isCompleted else checklistOptionTemplate">
-                                            <div class="p-2">
-                                                <span class="badge text-bg-primary">completed</span>
-                                            </div>
-                                        </ng-container>
-                                        <ng-template #checklistOptionTemplate>
-                                            <div class="p-2" (click)="completeChecklist(task, checklist)">
-                                                <span class="badge text-bg-success">done</span>
-                                            </div>
-                                            <div class="p-2" (click)="removeChecklist(task, checklist)">
-                                                <span class="badge text-bg-danger">remove</span>
-                                            </div>
-                                        </ng-template>
-                                    </div>
-                                </ng-container>
+                                <app-task-detail
+                                    [task]="task"
+                                    (onCompleteChecklist)="completeChecklist($event)"
+                                    (onRemoveChecklist)="removeChecklist($event)"></app-task-detail>
                             </ng-container>
                             <ng-template #createTaskForm>
                                 <ng-container *ngIf="task.type === 'text'; else checklistFormTemplate">
@@ -180,16 +86,56 @@
                             </ng-template>
                         </td>
                         <td>
-                            {{ task.createdBy?.name }}
+                            <ng-container *ngTemplateOutlet="createdByTemplate; context: {task}"></ng-container>
                         </td>
                         <td>
-                            {{ task.createdAt | date:'medium'}}
+                            <ng-container *ngTemplateOutlet="createdOnTemplate; context: {task}"></ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngTemplateOutlet="progressBarTemplate; context: {task}"></ng-container>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </ng-template>
-        
-
     </div>
 </div>
+
+<ng-template #createdByTemplate let-task="task">
+    <div class="d-flex flex-row align-items-center">
+        <div class="icon">
+            <i class="bx bxl-mailchimp"></i>
+        </div>
+        <div class="ms-2 c-details" *ngIf="task.isCreated">
+            <h6 class="mb-0">
+                {{ task.createdBy?.name }}
+            </h6>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #progressBarTemplate let-task="task">
+    <div class="progress">
+        <div
+            class="progress-bar"
+            role="progressbar"
+            [ngStyle]="{
+                'width': task.progressPercent + '%',
+                'background-color': task.color
+            }"
+            aria-valuenow="50"
+            aria-valuemin="0"
+            aria-valuemax="100"></div>
+    </div>
+</ng-template>
+
+<ng-template #createdOnTemplate let-task="task">
+    <div class="mt-2">
+        <span class="text1">
+            Created On 
+            <span class="text2">
+                {{ task.createdAt | date:'medium'}}
+            </span>
+        </span>
+    </div>
+</ng-template>

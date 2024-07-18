@@ -1,0 +1,24 @@
+<h3 class="heading">
+    {{ task.name | titlecase}}
+</h3>
+<ng-container *ngFor="let checklist of task.checklists">
+    <div class="d-flex bg-body-secondary mb-1" [ngClass]="{'line-through': checklist.isCompleted}">
+        <div class="p-2 flex-grow-1">
+            {{ checklist.name }}
+        </div>
+
+        <ng-container *ngIf="checklist.isCompleted else checklistOptionTemplate">
+            <div class="p-2">
+                <span class="badge text-bg-primary">completed</span>
+            </div>
+        </ng-container>
+        <ng-template #checklistOptionTemplate>
+            <div class="p-2" (click)="completeChecklistClick(task, checklist)">
+                <span class="badge text-bg-success">done</span>
+            </div>
+            <div class="p-2" (click)="removeChecklistClick(task, checklist)">
+                <span class="badge text-bg-danger">remove</span>
+            </div>
+        </ng-template>
+    </div>
+</ng-container>

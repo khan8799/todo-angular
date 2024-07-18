@@ -1,0 +1,16 @@
+<div class="dropdown mb-4">
+    <button
+        class="btn btn-primary dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Create New Task
+    </button>
+    <ul class="dropdown-menu">
+        <li *ngFor="let taskType of taskTypes" (click)="onAddTaskClick(taskType)">
+            <a class="dropdown-item">
+                {{ taskType.name }}
+            </a>
+        </li>
+    </ul>
+</div>
