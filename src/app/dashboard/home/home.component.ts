@@ -4,7 +4,6 @@ import { IUser } from 'src/app/models/auth.model';
 import { ITaskType, ITask, TaskType, IChecklist } from 'src/app/models/task.model';
 import { SharedService } from 'src/app/services/shared.service';
 import {randomColor, randomNumber, randomString} from 'src/app/utilities/randomString';
-import { TaskTypes } from 'src/app/utilities/taskTypes';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +11,6 @@ import { TaskTypes } from 'src/app/utilities/taskTypes';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  taskTypes = TaskTypes
   tasks: ITask[] = [];
   userInfo!: IUser;
   userInfoSubscription!: Subscription;
@@ -74,17 +72,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.storeTasksInBrowser();
   }
 
-  removeChecklist(selectedTask: ITask, selectedChecklist: IChecklist): void {
-    const index = this.tasks.findIndex(task => task._id === selectedTask._id)
+  removeChecklist(event: {task: ITask, checklist: IChecklist}): void {
+    const index = this.tasks.findIndex(task => task._id === event.task._id)
 
-    const checklistIndex = this.tasks[index].checklists.findIndex(v => v._id === selectedChecklist._id)
+    const checklistIndex = this.tasks[index].checklists.findIndex(v => v._id === event.checklist._id)
     this.tasks[index].checklists.splice(checklistIndex, 1)
   }
 
-  completeChecklist(selectedTask: ITask, selectedChecklist: IChecklist): void {
-    const index = this.tasks.findIndex(task => task._id === selectedTask._id)
+  completeChecklist(event: {task: ITask, checklist: IChecklist}): void {
+    const index = this.tasks.findIndex(task => task._id === event.task._id)
 
-    const checklistIndex = this.tasks[index].checklists.findIndex(v => v._id === selectedChecklist._id)
+    const checklistIndex = this.tasks[index].checklists.findIndex(v => v._id === event.checklist._id)
     this.tasks[index].checklists[checklistIndex].isCompleted = true
   }
 }
