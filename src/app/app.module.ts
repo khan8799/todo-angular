@@ -13,7 +13,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     AppComponent,
     HeaderComponent,
     MainLayoutComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,

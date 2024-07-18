@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group mb-3">
+        <input
+            type="text"
+            formControlName="taskName"
+            class="form-control"
+            placeholder="Enter task name">
+    </div>
+
+    <div id="multipleInputsContainer" class="form-group" formArrayName="checklists">
+        <label>Create Checklist</label>
+
+        <div class="input-group mb-3" *ngFor="let control of checklists.controls; let i = index" [formGroupName]="i">
+            <input
+                type="text"
+                formControlName="checklist"
+                class="form-control form-control-sm"
+                placeholder="Enter Checklist">
+            <span class="input-group-text text-danger" (click)="removeChecklist(i)">Remove</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="button" class="btn btn-outline-primary me-2" (click)="addChecklist()">Add Checklist</button>
+        <button type="submit" class="btn btn-success">Save</button>
+    </div>
+</form>

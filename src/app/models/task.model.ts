@@ -10,6 +10,7 @@ export interface ITask {
     type: string;
     name: string;
     progressPercent: number;
+    checklists: IChecklist[];
     isCreated: boolean;
     color: string;
     createdAt?: Date;
@@ -20,3 +21,9 @@ export enum TaskType {
     Text = 'text',
     Checklist = "checklist",
 };
+
+export interface IChecklist {
+    _id: string;
+    name: string;
+    isCompleted: boolean;
+}

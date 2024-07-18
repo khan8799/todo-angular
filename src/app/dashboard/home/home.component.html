@@ -45,6 +45,28 @@
                                 {{ task.name | titlecase}}
                             </h3>
 
+                            <ng-container *ngFor="let checklist of task.checklists">
+                                <div class="d-flex bg-body-secondary mb-1" [ngClass]="{'line-through': checklist.isCompleted}">
+                                    <div class="p-2 flex-grow-1">
+                                        {{ checklist.name }}
+                                    </div>
+
+                                    <ng-container *ngIf="checklist.isCompleted else checklistOptionTemplate">
+                                        <div class="p-2">
+                                            <span class="badge text-bg-primary">completed</span>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #checklistOptionTemplate>
+                                        <div class="p-2" (click)="completeChecklist(task, checklist)">
+                                            <span class="badge text-bg-success">done</span>
+                                        </div>
+                                        <div class="p-2" (click)="removeChecklist(task, checklist)">
+                                            <span class="badge text-bg-danger">remove</span>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </ng-container>
+
                             <div class="mt-5">
                                 <div class="progress">
                                     <div
@@ -69,20 +91,17 @@
                             </div>
                         </ng-container>
                         <ng-template #createTaskForm>
-                            <input
-                                class="form-control"
-                                type="text"
-                                placeholder="Enter task name"
-                                [(ngModel)]="taskName">
-
-                            <div class="mt-3">
-                                <button
-                                    class="btn btn-primary"
-                                    type="button"
-                                    (click)="saveNewTask(task)">
-                                    Save
-                                </button>
-                            </div>
+                            <ng-container *ngIf="task.type === 'text'; else checklistFormTemplate">
+                                <app-text-form
+                                    [task]="task"
+                                    (onSaveTask)="saveNewTask($event)"></app-text-form>
+                            </ng-container>
+                            <ng-template #checklistFormTemplate>
+                                <app-checklist-form
+                                    [task]="task"
+                                    (onSaveTask)="saveNewTask($event)"></app-checklist-form>
+                            </ng-template>
+                            
                         </ng-template>
                     </div>
                 </div>
