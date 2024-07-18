@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, timer } from 'rxjs';
+import { Observable, Subscription, timer } from 'rxjs';
 import { IUser } from 'src/app/models/auth.model';
 import { ITaskType, ITask, TaskType, IChecklist } from 'src/app/models/task.model';
 import { SharedService } from 'src/app/services/shared.service';
@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   tasks: ITask[] = [];
   userInfo!: IUser;
   userInfoSubscription!: Subscription;
+  view$!: Observable<'list' | 'grid'>;
 
   constructor(
     private _sharedService: SharedService
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const tasks = localStorage.getItem('tasks')
     if (tasks) this.tasks = JSON.parse(tasks)
     this.userInfoSubscription = this._sharedService.user.subscribe(user => this.userInfo = user);
+    this.view$ = this._sharedService.view
   }
 
   ngOnDestroy(): void {

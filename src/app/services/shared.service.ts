@@ -12,6 +12,9 @@ export class SharedService {
   public userSource = new BehaviorSubject<any>(null);
   public user = this.userSource.asObservable();
 
+  public viewSource = new BehaviorSubject<'list' | 'grid'>('grid');
+  public view = this.viewSource.asObservable();
+
   constructor() { }
 
   toggleLoading(status: boolean) {
@@ -20,5 +23,9 @@ export class SharedService {
 
   changeUser(user: IUser | null) {
     this.userSource.next(user);
+  }
+
+  toggleView(view: 'list' | 'grid') {
+    this.viewSource.next(view);
   }
 }
